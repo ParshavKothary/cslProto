@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\cslProgram">
+      <UniqueIdentifier>{190f94cf-efb6-4707-a521-7a4a36643f4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cslProgram">
+      <UniqueIdentifier>{c141600f-73bf-42ee-8bb4-8fcd8b606d63}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cslProgram\function.cpp">
+      <Filter>Source Files\cslProgram</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cslProgram\instruction.cpp">
+      <Filter>Source Files\cslProgram</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cslProgram\program.cpp">
+      <Filter>Source Files\cslProgram</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\stringUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cslProgram\function.h">
+      <Filter>Header Files\cslProgram</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cslProgram\instruction.h">
+      <Filter>Header Files\cslProgram</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cslProgram\program.h">
+      <Filter>Header Files\cslProgram</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cslProgram\variable.h">
+      <Filter>Header Files\cslProgram</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\script.txt" />
+  </ItemGroup>
+</Project>

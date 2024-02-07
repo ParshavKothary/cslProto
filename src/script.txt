@@ -1,0 +1,3 @@
+this is a script file
+testing testing
+hellomasn
