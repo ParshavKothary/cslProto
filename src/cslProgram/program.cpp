@@ -1,14 +1,12 @@
 #include "program.h"
 
-#include <cstdio>
-#include <ranges>
-#include <iterator>
+#include "common/common.h"
 
 namespace cslProgram
 {
-	inline bool IsCondResult(const Instruction::EResult result)
+	inline bool IsCondResult(const EInstructionResult result)
 	{
-		return result == Instruction::EResult::CondFail || result == Instruction::EResult::CondSuccess;
+		return result == EInstructionResult::CondTrue || result == EInstructionResult::CondFalse;
 	}
 
 	Program::FunctionIterator Program::SafeAdvance(FunctionIterator iter, FunctionIterator end, unsigned int n)
@@ -33,53 +31,40 @@ namespace cslProgram
 		FunctionIterator iter = function->instructions.begin();
 		const FunctionIterator end = function->instructions.end();
 
-		InstructionResult result = InstructionResult::Success;
+		EInstructionResult result = EInstructionResult::Success;
 		
 		// iterate over instructions
 		while (iter != end)
 		{
 			result = (*iter)->Execute(this);
-			unsigned int advanceCount = 1; // increment by 1 instruction at a time, this might change at conditionals as per syntax
 
-			if (IsCondResult(result))
+			if (IsCondResult(result)) // if we just ran a conditional instruction, skip first instruction after this if false, second if true
 			{
-				FunctionIterator orig = iter;
+				const bool isCondTrue = result == EInstructionResult::CondTrue;
+				iter = SafeAdvance(iter, end, isCondTrue ? 1 : 2); // if conditional was true, advance to first instruction after this, if false, skip first and advance to second
 
-				const bool isSuccess = result == InstructionResult::CondSuccess;
-				iter = SafeAdvance(iter, end, isSuccess ? 1 : 2); // as per syntax of conditionals, skip first instruction if conditional failed
-
-				if (iter == end)
-				{
-					printf("Interpreter error: Expected 2 instructions after conditional.\n");
-					// print orig iter line
-					return false;
-				}
+				assert(iter != end); // parsing should have caught lack of instructions after conditional
 
 				result = (*iter)->Execute(this);
 
-				if (IsCondResult(result))
-				{
-					printf("Interpreter error: Nested conditionals detected. This is not allowed sorry.\n");
-					// print iter line
-					return false;
-				}
+				assert(IsCondResult(result) == false); // parsing should have caught nested conditional
 
-				if (isSuccess)
+				if (isCondTrue)
 				{
-					++advanceCount; // as per syntax of conditionals, skip second instruction if conditional succeeded
+					iter = SafeAdvance(iter, end, 1); // skip second instruction if conditional was true
 				}
 			}
 
-			if (result == InstructionResult::Fail)
+			if (result == EInstructionResult::Fail)
 			{
 				break;
 			}
 
 			// result is success here
-			iter = SafeAdvance(iter, end, advanceCount);
+			iter = SafeAdvance(iter, end, 1);
 		}
 
-		if (result == InstructionResult::Fail)
+		if (result == EInstructionResult::Fail)
 		{
 			printf("Instruction failed\n");
 			// print iter instruction
@@ -115,17 +100,25 @@ namespace cslProgram
 			return false;
 		}
 
-		return RunFunctionInternal(functions[functionName]);
+		RunFunctionInternal(functions[functionName]);
+		return true;
 	}
 
-	bool Program::ConvertToVarIfExists(std::string& varName)
+	bool Program::ConvertToVarIfExists(std::string& valueOrVarName)
 	{
-		if (variables.find(varName) != variables.end())
+		if (variables.find(valueOrVarName) != variables.end())
 		{
-			varName = variables[varName];
+			valueOrVarName = variables[valueOrVarName];
 			return true;
 		}
 
 		return false;
+	}
+
+	void Program::SetVar(const std::string& name, const std::string& inValueOrName)
+	{
+		std::string valueOrVarName = inValueOrName;
+		ConvertToVarIfExists(valueOrVarName);
+		variables.insert_or_assign(name, valueOrVarName);
 	}
 }

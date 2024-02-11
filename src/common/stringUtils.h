@@ -4,6 +4,8 @@
 // https://stackoverflow.com/questions/216823/how-to-trim-a-stdstring
 //
 
+#ifndef COMMON_STRING_UTILS_H
+#define COMMON_STRING_UTILS_H
 
 #include <vector>
 
@@ -71,3 +73,5 @@ namespace stringUtils
         }
     }
 }
+
+#endif

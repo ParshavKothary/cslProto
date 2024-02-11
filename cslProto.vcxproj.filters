@@ -33,9 +33,12 @@
     <ClCompile Include="src\cslProgram\program.cpp">
       <Filter>Source Files\cslProgram</Filter>
     </ClCompile>
+    <ClCompile Include="src\common\common.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\stringUtils.h">
+    <ClInclude Include="src\common\stringUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\cslProgram\function.h">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="src\cslProgram\variable.h">
       <Filter>Header Files\cslProgram</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\common.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,18 +1,26 @@
 #include "instruction.h"
+#include "program.h"
 #include <cstdio>
 
 namespace cslProgram
 {
-	Instruction::EResult PrintInstruction::Execute(const Program* context) const
+	EInstructionResult PrintInstruction::Execute(Program* context) const
 	{
-		if (printParam == nullptr)
-		{
-			Instruction::EResult::Fail;
-		}
-
 		printf("Executing print instruction\n");
-		printf("%s\n", printParam);
+		printf("%s\n", line.c_str());
 
-		return Instruction::EResult::Success;
+		return EInstructionResult::Success;
+	}
+
+	EInstructionResult SetVarInstruction::Execute(Program* context) const
+	{
+		context->SetVar(name, value);
+		return EInstructionResult::Success;
+	}
+
+	EInstructionResult RunFuncInstruction::Execute(Program* context) const
+	{
+		context->RunFunction(name);
+		return EInstructionResult::Success;
 	}
 }

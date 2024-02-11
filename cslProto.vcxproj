@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,7 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
       <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
@@ -130,16 +131,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\common\common.cpp" />
     <ClCompile Include="src\cslProgram\function.cpp" />
     <ClCompile Include="src\cslProgram\instruction.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\cslProgram\program.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\common\common.h" />
     <ClInclude Include="src\cslProgram\function.h" />
     <ClInclude Include="src\cslProgram\instruction.h" />
     <ClInclude Include="src\cslProgram\program.h" />
-    <ClInclude Include="src\stringUtils.h" />
+    <ClInclude Include="src\common\stringUtils.h" />
     <ClInclude Include="src\cslProgram\variable.h" />
   </ItemGroup>
   <ItemGroup>

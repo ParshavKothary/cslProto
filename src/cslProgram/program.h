@@ -21,7 +21,6 @@ namespace cslProgram
 	{
 	private:
 		typedef std::list<const Instruction*>::const_iterator FunctionIterator;
-		typedef Instruction::EResult InstructionResult;
 
 		std::unordered_map<std::string, const Function*> functions;
 		std::unordered_map<std::string, std::string> variables;
@@ -36,7 +35,8 @@ namespace cslProgram
 		~Program();
 
 		bool RunFunction(const std::string& functionName);
-		bool ConvertToVarIfExists(std::string& varName);
+		bool ConvertToVarIfExists(std::string& valueOrVarName);
+		void SetVar(const std::string& name, const std::string& valueOrVarName);
 	};
 }
 
