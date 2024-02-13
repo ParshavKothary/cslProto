@@ -77,6 +77,7 @@ namespace cslProgram
 	Program::Program(std::istream& source)
 	{
 		m_init = false;
+		PRINTF("Beginning parse and compile\n");
 		while (true)
 		{
 			std::string funcName = "";
@@ -105,6 +106,7 @@ namespace cslProgram
 			m_init = true;
 			functions.insert({ funcName, function });
 		}
+		PRINTF("Finished parse and compile\n\n\n");
 	}
 
 	void Program::DeleteFuncInstructions(const Function* func)

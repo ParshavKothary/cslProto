@@ -1,8 +1,14 @@
 , ,, , ON_START ,,
 SetVar, X, 90
 SetVar, Y, 70
+RunFunc, ON_PRINT
+
+ON_END
+SetVar, Y, 100
+RunFunc, ON_PRINT
+
+ON_PRINT
 IsGreater, X, Y
 Print, X is Greater
-asdf,asdf
 Print, Y is Greater
 Print, Hello World

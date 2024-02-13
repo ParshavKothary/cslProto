@@ -9,7 +9,6 @@ namespace cslProgram
 {
 	EInstructionResult PrintInstruction::Execute(Program* context) const
 	{
-		PRINTF("Executing print instruction\n");
 		PRINTF("%s\n", line.c_str());
 
 		return EInstructionResult::Success;
