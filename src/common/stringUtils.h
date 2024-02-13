@@ -8,9 +8,23 @@
 #define COMMON_STRING_UTILS_H
 
 #include <vector>
+#include <string>
 
 namespace stringUtils
 {
+    inline bool hasSpace(const std::string& s)
+    {
+        for (const char& c : s)
+        {
+            if (std::isspace(c))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     // trim from start (in place)
     inline void ltrim(std::string& s) {
         s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {

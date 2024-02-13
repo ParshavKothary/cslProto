@@ -1,3 +1,7 @@
-this is a script file
-testing testing
-hellomasn
+ON_START
+SetVar, X, 90
+SetVar, Y, 70
+IsGreater, X, Y
+Print, X is Greater
+Print, Y is Greater
+Print, Hello World

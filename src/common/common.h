@@ -7,6 +7,6 @@
 
 void custom_printf(const char* format, ...);
 
-#define PRINTF(format, _VA_ARGS_) custom_printf(format, _VA_ARGS_);
+#define PRINTF(...) custom_printf(__VA_ARGS__);
 
 #endif // !COMMON_H

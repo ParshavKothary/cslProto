@@ -19,6 +19,12 @@
     <Filter Include="Source Files\cslProgram">
       <UniqueIdentifier>{c141600f-73bf-42ee-8bb4-8fcd8b606d63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\common">
+      <UniqueIdentifier>{df5b43c4-f583-487b-98bc-920098cde247}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{f13402c4-d80a-4f60-812b-5c9c2f164821}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -34,13 +40,10 @@
       <Filter>Source Files\cslProgram</Filter>
     </ClCompile>
     <ClCompile Include="src\common\common.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\common\stringUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\cslProgram\function.h">
       <Filter>Header Files\cslProgram</Filter>
     </ClInclude>
@@ -54,7 +57,10 @@
       <Filter>Header Files\cslProgram</Filter>
     </ClInclude>
     <ClInclude Include="src\common\common.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\stringUtils.h">
+      <Filter>Header Files\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

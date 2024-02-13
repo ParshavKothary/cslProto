@@ -3,6 +3,7 @@
 #include <string>
 #include <list>
 #include "common/stringUtils.h"
+#include "cslProgram/program.h"
 
 using namespace std;
 
@@ -26,14 +27,11 @@ int main(int argc, const char* argv[])
     ifstream file("src/script.txt");
 
     if (file.is_open()) {
-        // Read each line from the file and store it in the 
-        // 'line' variable. 
-        while (getline(file, line)) {
-            printf("%s\n", line.c_str());
-        }
+        cslProgram::Program program(file);
 
-        // Close the file stream once all lines have been 
-        // read. 
+        program.RunFunction("ON_START");
+        // run program
+
         file.close();
     }
     else {
