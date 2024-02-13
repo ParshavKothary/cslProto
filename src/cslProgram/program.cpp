@@ -23,11 +23,7 @@ namespace cslProgram
 
 	bool Program::RunFunctionInternal(const Function* function)
 	{
-		if (function == nullptr)
-		{
-			PRINTF("Something is wrong. RunFunctionInternal called with null function.\n");
-			return false;
-		}
+		assert(function != nullptr);
 
 		InstructionIterator iter = function->instructions.begin();
 		const InstructionIterator end = function->instructions.end();
@@ -78,7 +74,6 @@ namespace cslProgram
 	//
 	// Construct destruct
 	//
-
 	Program::Program(std::istream& source)
 	{
 		m_init = false;
@@ -96,7 +91,7 @@ namespace cslProgram
 
 			if (function == nullptr)
 			{
-				break;
+				break; // success + null function = reached end of file
 			}
 
 			if (functions.find(funcName) != functions.end())
@@ -250,22 +245,56 @@ namespace cslProgram
 
 	bool Program::GetNextFunction(std::istream& source, Function*& pFunc, std::string& funcName)
 	{
+		assert(pFunc == nullptr);
+
 		std::string rawline;
+
+		bool foundFunc = false; // first find function name, ignore whitespace/empty lines
+		while (std::getline(source, rawline))
+		{
+			PRINTF("Parsing line: %s\n", rawline.c_str());
+			stringUtils::trim(rawline);
+
+			if (rawline.empty())
+			{
+				continue;
+			}
+
+			std::vector<std::string> words;
+			GetFormattedWords(rawline, words);
+
+			if (IsValidFunctionLine(words))
+			{
+				funcName = words[0];
+				foundFunc = true;
+				break;
+			}
+			else if (IsValidNonFunctionLine(words))
+			{
+				PRINTF("Compilation error: Line outside function: %s\n", rawline.c_str());
+				return false;
+			}
+			else
+			{
+				PRINTF("Invalid line: %s\n", rawline.c_str());
+				return false;
+			}
+		}
+
+		if (foundFunc == false)
+		{
+			// empty file, so success is true but pFunc is nullptr
+			return true;
+		}
 
 		Function* newFunction = new Function();
 
 		bool failed = false;
-		bool inFunction = false;
-
 		std::streampos oldPos = source.tellg();
 		while (std::getline(source, rawline) && failed == false)
 		{
 			PRINTF("Parsing line: %s\n", rawline.c_str());
-			
 			stringUtils::trim(rawline);
-
-			std::vector<std::string> words;
-			GetFormattedWords(rawline, words);
 
 			if (rawline.empty())
 			{
@@ -273,33 +302,12 @@ namespace cslProgram
 				continue;
 			}
 
-			if (inFunction == false) // look for function name while skipping whitespace
-			{
-				if (IsValidFunctionLine(words))
-				{
-					inFunction = true;
-					funcName = words[0];
-				}
-				else if (IsValidNonFunctionLine(words))
-				{
-					failed = true;
-					PRINTF("Cmd outside function: %s\n", rawline.c_str());
-					break;
-				}
-				else
-				{
-					failed = true;
-					PRINTF("Invalid line: %s\n", rawline.c_str());
-					break;
-				}
-
-				oldPos = source.tellg();
-				continue;
-			}
+			std::vector<std::string> words;
+			GetFormattedWords(rawline, words);
 
 			if (IsValidFunctionLine(words))
 			{
-				source.seekg(oldPos); // reset source position so next GetNextFunctionCall sees this function name
+				source.seekg(oldPos); // reached next function, reset source pos so next read can see this function name
 				break;
 			}
 
@@ -342,14 +350,6 @@ namespace cslProgram
 			DeleteFuncInstructions(newFunction);
 			delete newFunction;
 			return false;
-		}
-
-		if (inFunction == false)
-		{
-			// empty file
-			DeleteFuncInstructions(newFunction);
-			delete newFunction;
-			return true;
 		}
 		
 		pFunc = newFunction;

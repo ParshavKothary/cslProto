@@ -9,21 +9,6 @@ using namespace std;
 
 int main(int argc, const char* argv[])
 {
-	printf("Hello World!\n");
-
-
-	string line = "    TEST , line, 234 , he ,, jlk, kl  lkj, j,, jl,jll ";
-	vector<string> splitLine;
-
-	stringUtils::split(line, ',', splitLine);
-
-	for (const string& word : splitLine)
-	{
-		printf("%s\n", word.c_str());
-	}
-
-    // Create an input file stream object named 'file' and 
-    // open the file "GFG.txt". 
     ifstream file("src/script.txt");
 
     if (file.is_open()) {
