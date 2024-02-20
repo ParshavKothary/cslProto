@@ -87,6 +87,22 @@ namespace cslProgram
 		virtual EInstructionResult Execute(Program* context) const override;
 		virtual bool IsConditional() const override { return true; }
 	};
+
+	class IsGreaterEqualConditional : public Instruction
+	{
+	protected:
+		std::string lVar; // parsing should make sure these are not empty and 1 word
+		std::string rVar;
+
+	public:
+		IsGreaterEqualConditional(const std::string& inSrc, const std::string& inLVar, const std::string& inRVar) :
+			Instruction(inSrc),
+			lVar(inLVar),
+			rVar(inRVar) {}
+
+		virtual EInstructionResult Execute(Program* context) const override;
+		virtual bool IsConditional() const override { return true; }
+	};
 }
 
 #endif

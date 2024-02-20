@@ -1,4 +1,4 @@
-#include <cstdio>
+#include <iostream>
 #include <fstream>
 #include <string>
 #include <list>
@@ -15,8 +15,14 @@ int main(int argc, const char* argv[])
         cslProgram::Program program(file);
 
         program.RunFunction("ON_START");
-        program.RunFunction("ON_END");
-        // run program
+
+        bool exit = false;
+        while (exit == false)
+        {
+            string input;
+            cin >> input;
+            break;
+        }
 
         file.close();
     }

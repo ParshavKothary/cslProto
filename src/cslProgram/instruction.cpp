@@ -24,6 +24,7 @@ namespace cslProgram
 	{
 		if (context->RunFunction(name) == false)
 		{
+			PRINTF("Runtime Error: Run function failed at line: %s\n", srcLine.c_str());
 			return EInstructionResult::Fail;
 		}
 		return EInstructionResult::Success;
@@ -34,15 +35,36 @@ namespace cslProgram
 		float lVal;
 		if (context->GetFloatFromValueOrName(lVar, lVal) == false)
 		{
+			PRINTF("Runtime Error: Failed to get value from argument %s in line: %s\n", lVar.c_str(), srcLine.c_str());
 			return EInstructionResult::Fail;
 		}
 
 		float rVal;
 		if (context->GetFloatFromValueOrName(rVar, rVal) == false)
 		{
+			PRINTF("Runtime Error: Failed to get value from argument %s in line: %s\n", rVar.c_str(), srcLine.c_str());
 			return EInstructionResult::Fail;
 		}
 
 		return lVal > rVal ? EInstructionResult::CondTrue : EInstructionResult::CondFalse;
+	}
+
+	EInstructionResult IsGreaterEqualConditional::Execute(Program* context) const
+	{
+		float lVal;
+		if (context->GetFloatFromValueOrName(lVar, lVal) == false)
+		{
+			PRINTF("Runtime Error: Failed to get value from argument %s in line: %s\n", lVar.c_str(), srcLine.c_str());
+			return EInstructionResult::Fail;
+		}
+
+		float rVal;
+		if (context->GetFloatFromValueOrName(rVar, rVal) == false)
+		{
+			PRINTF("Runtime Error: Failed to get value from argument %s in line: %s\n", rVar.c_str(), srcLine.c_str());
+			return EInstructionResult::Fail;
+		}
+
+		return lVal >= rVal ? EInstructionResult::CondTrue : EInstructionResult::CondFalse;
 	}
 }
