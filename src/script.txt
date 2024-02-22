@@ -11,4 +11,8 @@ ON_PRINT
 IsGreater, X, Y
 Print, X is Greater
 Print, Y is Greater
+IsGreater, Y, X
 Print, Hello World
+
+ON_HELLO
+Print, Test

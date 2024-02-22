@@ -199,6 +199,11 @@ namespace cslProgram
 		Function* newFunction = new Function();
 
 		bool failed = false;
+
+		unsigned int isAfterConditional = 0; // used to catch lack of instructions after conditional (need 2)
+											 // also used to catch nested conditionals
+		Instruction* pLastConditional = nullptr;
+
 		std::streampos oldPos = source.tellg();
 		while (std::getline(source, rawline))
 		{
@@ -242,6 +247,24 @@ namespace cslProgram
 					break;
 				}
 
+				if (pNewInstruction->IsConditional())
+				{
+					pLastConditional = pNewInstruction;
+
+					if (isAfterConditional > 0)
+					{
+						PRINTF("Compilation Error: No nested conditionals allowed: %s\n", rawline.c_str());
+						failed = true;
+						break;
+					}
+
+					isAfterConditional = 2;
+				}
+				else if (isAfterConditional > 0)
+				{
+					--isAfterConditional;
+				}
+
 				PRINTF("Valid Instruction: %s\n", rawline.c_str());
 				newFunction->instructions.push_back(pNewInstruction);
 			}
@@ -251,6 +274,12 @@ namespace cslProgram
 				failed = true;
 				break;
 			}
+		}
+
+		if (isAfterConditional > 0) // there were < 2 instructions after conditional
+		{
+			PRINTF("Compilation error: Not enough instructions after conditional: %s\n", pLastConditional->GetSrcLine());
+			failed = true;
 		}
 
 		if (failed)
@@ -281,7 +310,7 @@ namespace cslProgram
 		{
 			result = (*iter)->Execute(this);
 
-			if (IsCondResult(result)) // if we just ran a conditional instruction, skip first instruction after this if false, second if true
+			if (IsCondResult(result)) // if we just ran a conditional instruction, skip first instruction after this if false, skip second after this if true
 			{
 				const bool isCondTrue = result == EInstructionResult::CondTrue;
 				iter = SafeAdvance(iter, end, isCondTrue ? 1 : 2); // if conditional was true, advance to first instruction after this, if false, skip first and advance to second

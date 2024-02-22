@@ -28,6 +28,7 @@ namespace cslProgram
 		Instruction(const std::string& inSrc) : srcLine(inSrc) {}
 		virtual EInstructionResult Execute(Program* context) const = 0;
 		virtual bool IsConditional() const { return false; }
+		const char* GetSrcLine() { return srcLine.c_str(); }
 	};
 
 	class PrintInstruction : public Instruction
@@ -72,7 +73,14 @@ namespace cslProgram
 		virtual EInstructionResult Execute(Program* context) const override;
 	};
 
-	class IsGreaterConditional : public Instruction
+	class Conditional : public Instruction
+	{
+	public:
+		Conditional(const std::string& inSrc) : Instruction(inSrc) {}
+		virtual bool IsConditional() const override { return true; }
+	};
+
+	class IsGreaterConditional : public Conditional
 	{
 	protected:
 		std::string lVar; // parsing should make sure these are not empty and 1 word
@@ -80,15 +88,14 @@ namespace cslProgram
 
 	public:
 		IsGreaterConditional(const std::string& inSrc, const std::string& inLVar, const std::string& inRVar) :
-			Instruction(inSrc),
+			Conditional(inSrc),
 			lVar(inLVar),
 			rVar(inRVar) {}
 
 		virtual EInstructionResult Execute(Program* context) const override;
-		virtual bool IsConditional() const override { return true; }
 	};
 
-	class IsGreaterEqualConditional : public Instruction
+	class IsGreaterEqualConditional : public Conditional
 	{
 	protected:
 		std::string lVar; // parsing should make sure these are not empty and 1 word
@@ -96,12 +103,11 @@ namespace cslProgram
 
 	public:
 		IsGreaterEqualConditional(const std::string& inSrc, const std::string& inLVar, const std::string& inRVar) :
-			Instruction(inSrc),
+			Conditional(inSrc),
 			lVar(inLVar),
 			rVar(inRVar) {}
 
 		virtual EInstructionResult Execute(Program* context) const override;
-		virtual bool IsConditional() const override { return true; }
 	};
 }
 
