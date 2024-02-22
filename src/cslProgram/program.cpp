@@ -130,11 +130,10 @@ namespace cslProgram
 		return true;
 	}
 
-	// trims copy of inLine, splits by ',' and trims each word (removes empties)
+	// inLine should be trimmed. splits it by ',' and trims each word. removes empty words
 	void GetFormattedWords(const std::string& inLine, std::vector<std::string>& words)
 	{
-		std::string line = stringUtils::trim_copy(inLine);
-		stringUtils::split(line, ',', words);
+		stringUtils::split(inLine, ',', words);
 
 		std::vector<std::string>::iterator iter = words.begin();
 
@@ -254,6 +253,7 @@ namespace cslProgram
 					if (isAfterConditional > 0)
 					{
 						PRINTF("Compilation Error: No nested conditionals allowed: %s\n", rawline.c_str());
+						isAfterConditional = 0; // this flag will trigger the not enough instructions error but we've already failed
 						failed = true;
 						break;
 					}
@@ -295,7 +295,7 @@ namespace cslProgram
 
 	#pragma endregion
 
-	// Main Run function:
+	// Main Run function
 	bool Program::RunFunctionInternal(const Function* function)
 	{
 		assert(function != nullptr);
