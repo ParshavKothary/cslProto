@@ -9,7 +9,14 @@ namespace cslProgram
 {
 	EInstructionResult PrintInstruction::Execute(Program* context) const
 	{
-		PRINTF("%s\n", line.c_str());
+		std::string totalLine = "";
+		for (const std::string& word : line)
+		{
+			std::string value = word;
+			context->GetValueFromValueOrName(value);
+			totalLine += value;
+		}
+		PRINTF("%s\n", totalLine.c_str());
 
 		return EInstructionResult::Success;
 	}

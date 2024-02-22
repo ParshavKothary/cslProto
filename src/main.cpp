@@ -15,6 +15,7 @@ int main(int argc, const char* argv[])
         cslProgram::Program program(file);
 
         program.RunFunction("ON_START");
+        program.RunFunction("ON_END");
 
         bool exit = false;
         while (exit == false)

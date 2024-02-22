@@ -9,10 +9,8 @@ RunFunc, ON_PRINT
 
 ON_PRINT
 IsGreater, X, Y
-Print, X is Greater
-Print, Y is Greater
-IsGreater, Y, X
-Print, Hello World
+Print, X, G_TAB, is Greater than, G_TAB, G_TAB, Y
+Print, Y, G_TAB, is Greater than, G_TAB, G_TAB, X
 
 ON_HELLO
 Print, Test

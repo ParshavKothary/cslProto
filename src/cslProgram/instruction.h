@@ -4,6 +4,7 @@
 #define CSLPROGRAM_INSTRUCTION_H
 
 #include <string>
+#include <vector>
 
 namespace cslProgram
 {
@@ -34,10 +35,10 @@ namespace cslProgram
 	class PrintInstruction : public Instruction
 	{
 	protected:
-		std::string line; // parsing should make sure this is not empty
+		std::vector<std::string> line; // parsing should make sure this is not empty
 
 	public:
-		PrintInstruction(const std::string& inSrc, const std::string& inLine) :
+		PrintInstruction(const std::string& inSrc, const std::vector<std::string>& inLine) :
 			Instruction(inSrc),
 			line(inLine) {}
 

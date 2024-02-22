@@ -48,7 +48,7 @@ namespace cslProgram
 
 	Instruction* ExtractPrintInstruction(const std::vector<std::string>& words, const std::string& src)
 	{
-		return new PrintInstruction(src, words[0]);
+		return new PrintInstruction(src, words);
 	}
 
 	Instruction* ExtractSetVarInstruction(const std::vector<std::string>& words, const std::string& src)
@@ -195,6 +195,7 @@ namespace cslProgram
 			return true;
 		}
 
+		// function name found, now collect all the instructions under it until EOF or next function name
 		Function* newFunction = new Function();
 
 		bool failed = false;
@@ -203,7 +204,7 @@ namespace cslProgram
 											 // also used to catch nested conditionals
 		Instruction* pLastConditional = nullptr;
 
-		std::streampos oldPos = source.tellg();
+		std::streampos oldPos = source.tellg(); // used to restore stream seeker when we hit the next function name
 		while (std::getline(source, rawline))
 		{
 			PRINTF("Parsing line: %s\n", rawline.c_str());
@@ -404,6 +405,16 @@ namespace cslProgram
 
 	#pragma endregion
 
+	#pragma region Globals/Constants
+
+	const std::unordered_map<std::string, std::string> s_globalVariables =
+	{
+		{"G_SPACE", " "},
+		{"G_TAB", "\t"}
+	};
+
+	#pragma endregion
+
 	#pragma region Public Functions to iteract with program
 
 	bool Program::RunFunction(const std::string& functionName)
@@ -419,9 +430,14 @@ namespace cslProgram
 
 	bool Program::GetValueFromValueOrName(std::string& valueOrVarName)
 	{
+		if (s_globalVariables.find(valueOrVarName) != s_globalVariables.end())
+		{
+			valueOrVarName = s_globalVariables.at(valueOrVarName);
+			return true;
+		}
 		if (variables.find(valueOrVarName) != variables.end())
 		{
-			valueOrVarName = variables[valueOrVarName];
+			valueOrVarName = variables.at(valueOrVarName);
 			return true;
 		}
 
